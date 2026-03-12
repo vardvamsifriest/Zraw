@@ -13,5 +13,9 @@
   "type": "commonjs",
   "exports": {
     ".": "./dist/config.js"
+  },
+  "dependencies": {
+    "@types/node": "^22.15.3",
+    "dotenv": "^17.3.1"
   }
 }

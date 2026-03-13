@@ -1,1 +1,21 @@
-@import "tailwindcss"
+@import "tailwindcss";
+@source "../../../packages/ui/src";
+
+@font-face {
+  font-family:"azeret" ;
+  src: url(./fonts/Azeret_Mono/AzeretMono-VariableFont_wght.ttf);
+}
+
+@font-face {
+  font-family: "azereti";
+  src: url(./fonts/Azeret_Mono/AzeretMono-Italic-VariableFont_wght.ttf);
+}
+@font-face {
+  font-family: "geist";
+  src: url(./fonts/Geist/Geist-VariableFont_wght.ttf);
+}
+@theme {
+  --font-azeret: "azeret", monospace;
+  --font-azereti: "azereti", monospace;
+  --font-geist:"geist",monospace
+}

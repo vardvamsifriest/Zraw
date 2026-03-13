@@ -1,27 +1,45 @@
-import { type JSX } from "react";
+import { InputBox } from "./inputbox";
+import { Button } from "./button";
+import Link from "next/link";
+interface cardprops {
+  size: "sm" | "md" | "lg";
+  needusername: boolean;
+  text: string;
+  title:string;
+  link:boolean
+}
 
-export function Card({
-  className,
-  title,
-  children,
-  href,
-}: {
-  className?: string;
-  title: string;
-  children: React.ReactNode;
-  href: string;
-}): JSX.Element {
+const SizeStyles = {
+  "sm": "h-72 w-72",
+  "md": "h-104 w-84",
+  "lg": "h-96 w-96"
+}
+
+export function Card(props: cardprops) {
   return (
-    <a
-      className={className}
-      href={`${href}?utm_source=create-turbo&utm_medium=basic&utm_campaign=create-turbo"`}
-      rel="noopener noreferrer"
-      target="_blank"
-    >
-      <h2>
-        {title} <span>-&gt;</span>
-      </h2>
-      <p>{children}</p>
-    </a>
-  );
+    <div className={`${SizeStyles[props.size]} bg-zinc-100 backdrop-blur-sm border-4 border-slate-500 rounded-xl shadow-xl p-6 flex flex-col gap-4`}>
+       <div className="flex justify-center">
+      <p className="font-geist text-2xl font-semibold">
+        {props.title}  
+      </p>
+      </div>
+      <div>
+        <InputBox placeholder="email" id="Enter your email:" />
+      </div>
+      <div>
+        <InputBox placeholder="password" id="Enter your password:" />
+      </div>
+      {props.needusername && (
+        <div>
+          <InputBox placeholder="username" id="Enter your username:" />
+        </div>
+      )}
+      <div className="flex justify-center">
+      <Button text={props.text} variant="secondary" size="md" />
+      </div>
+      <div className="flex justify-center">
+      {props.link && ( <Link href={"/signin"} className="text-sm font-geist text-black hover:cursor-pointer">Already have an account?</Link>)}
+     </div>
+    </div>
+  )
 }

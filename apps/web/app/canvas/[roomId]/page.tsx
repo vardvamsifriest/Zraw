@@ -1,6 +1,9 @@
 "use client"
 import { useEffect, useRef, useState } from "react"
-
+import {use} from "react"
+import { ToolBar } from "../../components/toolbar"
+import { ColorBar } from "../../components/colorbar"
+import { ShapeDecider } from "../../components/shapedecider"
 interface Point {
   x: number
   y: number
@@ -12,20 +15,20 @@ interface Stroke {
   width: number
 }
 
-export default function Canvas({ params }: { params: { roomId: string } }) {
+export default function Canvas({ params }: { params:Promise< { roomId: string }> }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [isDrawing, setIsDrawing] = useState(false)
   const [strokes, setStrokes] = useState<Stroke[]>([])
   const currentStroke = useRef<Point[]>([])
   const wsRef = useRef<WebSocket | null>(null)
-
+  const{roomId} = use(params)
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
     canvas.width = window.innerWidth
     canvas.height = window.innerHeight
 
-    // Connect to WebSocket
+    
     const token = localStorage.getItem("token")
     const ws = new WebSocket(`ws://localhost:8080?token=${token}`)
     wsRef.current = ws
@@ -34,7 +37,7 @@ export default function Canvas({ params }: { params: { roomId: string } }) {
       console.log("Connected to WS")
       ws.send(JSON.stringify({
         type: "join_room",
-        roomId: params.roomId
+        roomId: roomId
       }))
     }
 
@@ -108,11 +111,11 @@ export default function Canvas({ params }: { params: { roomId: string } }) {
     }
     setStrokes(prev => [...prev, stroke])
 
-    // Send stroke to WS
+    
     if (wsRef.current?.readyState === WebSocket.OPEN) {
       wsRef.current.send(JSON.stringify({
         type: "chat",
-        roomId: params.roomId,
+        roomId: roomId,
         message: JSON.stringify(stroke)
       }))
     }
@@ -121,14 +124,27 @@ export default function Canvas({ params }: { params: { roomId: string } }) {
     setIsDrawing(false)
   }
 
-  return (
+ return (
+  <div className="relative w-screen h-screen bg-slate-900">
     <canvas
       ref={canvasRef}
-      className="bg-slate-900"
+      className=" absolute inset-0"
       onMouseDown={startDrawing}
       onMouseMove={draw}
       onMouseUp={stopDrawing}
       onMouseLeave={stopDrawing}
     />
-  )
+    <div className="flex items-center justify-center pt-20 gap-4">
+    <div className="">
+      <ToolBar />
+    </div>
+    <div >
+      <ColorBar />
+    </div>
+    <div>
+        <ShapeDecider/>
+    </div>
+    </div>
+  </div>
+)
 }

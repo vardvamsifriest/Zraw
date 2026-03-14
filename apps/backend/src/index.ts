@@ -67,4 +67,4 @@ app.post("/room", middleware, async (req, res) => {
   res.json({ roomId: room.id })
 })
 
-app.listen(3000)
+app.listen(3001)

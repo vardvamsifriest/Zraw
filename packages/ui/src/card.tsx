@@ -1,14 +1,16 @@
+
 import { InputBox } from "./inputbox";
 import { Button } from "./button";
 import Link from "next/link";
+import { useState } from "react";
 interface cardprops {
   size: "sm" | "md" | "lg";
   needusername: boolean;
   text: string;
   title:string;
   link:boolean
+  onClick:(email: string, password: string, username: string)=>void;
 }
-
 const SizeStyles = {
   "sm": "h-80 w-72",
   "md": "h-104 w-84",
@@ -16,6 +18,9 @@ const SizeStyles = {
 }
 
 export function Card(props: cardprops) {
+  const [email , setEmail] = useState("")
+const [password , setPassword] = useState("")
+const [username , setUsername] = useState("")
   return (
     <div className={`${SizeStyles[props.size]} bg-zinc-100 backdrop-blur-sm border-4 border-slate-600 rounded-xl shadow-xl p-6 flex flex-col gap-4`}>
        <div className="flex justify-center">
@@ -24,18 +29,18 @@ export function Card(props: cardprops) {
       </p>
       </div>
       <div>
-        <InputBox placeholder="Enter your email" id="Email:" />
+        <InputBox placeholder="Enter your email" id="Email:" onChange={(e)=>setEmail(e.target.value)} />
       </div>
       <div>
-        <InputBox placeholder="Enter your password" id="Password:" />
+        <InputBox placeholder="Enter your password" id="Password:" onChange={(e)=>setPassword(e.target.value)} />
       </div>
       {props.needusername && (
         <div>
-          <InputBox placeholder="Enter your username" id="Username:" />
+          <InputBox placeholder="Enter your username" id="Username:" onChange={(e)=>setUsername(e.target.value)} />
         </div>
       )}
       <div className="flex justify-center">
-      <Button img={<img src = "arrow_v2.gif" className="h-10 w-10"/>} text={props.text} variant="secondary" size="md" />
+      <Button onClick={()=>props.onClick(email,password,username)} img={<img src = "arrow_v2.gif" className="h-10 w-10"/>} text={props.text} variant="secondary" size="md" />
       </div>
       <div className="flex justify-center">
       {props.link && ( <Link href={"/signin"} className="text-sm font-geist text-black hover:cursor-pointer">Already have an account?</Link>)}

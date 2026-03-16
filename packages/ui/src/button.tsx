@@ -4,7 +4,7 @@ interface buttonprops {
   "size":"lg"|"md"|"sm",
   "variant":"primary"|"secondary",
   text:string,
-  onClick?:()=>void,
+  onClick?:(...args:any[])=>void,
   img?:ReactElement,
   active?:boolean
 }

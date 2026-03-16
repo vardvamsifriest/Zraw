@@ -2,6 +2,7 @@ interface inputprops
 {
     placeholder:string,
     id:string
+    onChange:(e:React.ChangeEvent<HTMLInputElement>)=>void
 }
 export function InputBox(props: inputprops) {
   return (
@@ -14,6 +15,7 @@ export function InputBox(props: inputprops) {
         type="text"
         id={props.id}
         placeholder={props.placeholder}
+        onChange={props.onChange}
       />
     </div>
   )

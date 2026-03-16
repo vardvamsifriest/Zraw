@@ -124,7 +124,7 @@ export default function Canvas({ params }: { params: Promise<{ roomId: string }>
   ctx.beginPath()
   ctx.moveTo(stroke.points[0]!.x, stroke.points[0]!.y)
   stroke.points.forEach(point => ctx.lineTo(point.x, point.y))
-  ctx.strokeStyle = "#0f172a"
+  ctx.strokeStyle = "white"
   ctx.lineWidth = 20
   ctx.lineCap = "round"
   ctx.stroke()
@@ -309,7 +309,7 @@ export default function Canvas({ params }: { params: Promise<{ roomId: string }>
   }
 
   return (
-    <div className="relative w-screen h-screen bg-slate-900">
+    <div className="relative w-screen h-screen bg-white">
       <canvas
         ref={canvasRef}
         className="absolute inset-0 z-0"

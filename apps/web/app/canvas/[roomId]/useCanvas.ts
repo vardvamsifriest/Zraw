@@ -115,7 +115,7 @@ export function useCanvas(props: UseCanvasProps) {
   const ctx = canvas?.getContext("2d")
   if (!ctx || !canvas) return
   ctx.clearRect(0, 0, canvas.width, canvas.height)
-  ctx.fillStyle = "#ffffff"
+  ctx.fillStyle = "white"
   ctx.fillRect(0, 0, canvas.width, canvas.height)
   strokesRef.current.forEach(stroke => drawStroke(stroke))
 }

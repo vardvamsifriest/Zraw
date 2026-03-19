@@ -93,4 +93,11 @@ app.get("/me", middleware, async (req, res) => {
   })
   res.json({ user })
 })
+app.get("/chats/:roomId", middleware, async (req, res) => {
+  const chats = await prisma.chat.findMany({
+    where: { roomId: Number(req.params.roomId) },
+    orderBy: { id: "asc" }
+  })
+  res.json({ chats })
+})
 app.listen(3001)

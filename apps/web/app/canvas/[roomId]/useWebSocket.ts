@@ -16,12 +16,21 @@ export function useWebSocket(
     wsRef.current = ws
 
     ws.onopen = () => {
-      console.log("Connected to WS")
-      ws.send(JSON.stringify({
-        type: "join_room",
-        roomId: roomId
-      }))
-    }
+  ws.send(JSON.stringify({ type: "join_room", roomId }))
+  
+  const token = localStorage.getItem("token")
+  fetch(`http://localhost:3001/chats/${roomId}`, {
+    headers: { authorization: token || "" }
+  })
+  .then(res => res.json())
+  .then(data => {
+    data.chats.forEach((chat: any) => {
+      const stroke = JSON.parse(chat.message)
+      strokesRef.current = [...strokesRef.current, stroke]
+      drawStroke(stroke)
+    })
+  })
+}
 
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data)

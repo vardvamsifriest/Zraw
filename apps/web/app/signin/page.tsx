@@ -29,17 +29,7 @@ export default function Signin()
             <div className="bg-slate-900 flex justify-center h-24 w-full border-b-4 border-slate-700">
                 <Logo/>
             </div>
-             <div className="flex justify-center">
-        <p className="text-white text-4xl font-semibold font-azereti">
-          think.
-        </p>
-        <p className="text-white text-4xl font-semibold font-azereti">
-          draw.
-        </p>
-        <p className="text-white text-4xl font-semibold font-azereti">
-          collaborate
-        </p>
-        </div>
+         
             <div className="flex justify-center pt-45">
             <Card onClick={HandleSignin} text="Submit" size="sm" needusername={false} title="Sign In" link={false} />
             </div>

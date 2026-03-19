@@ -5,7 +5,9 @@ import { DrawBar } from "../../components/drawbar"
 import { Logo } from "@repo/ui/logo"
 import { Stroke } from "./types"
 import { useCanvas } from "./useCanvas"
-
+import { Button } from "@repo/ui/button"
+import { UserCard } from "../../components/usercard"
+import { useWebSocket } from "./useWebSocket"
 
 export default function Canvas({ params }: { params: Promise<{ roomId: string }> }) {
   const [isDrawing, setIsDrawing] = useState(false)
@@ -17,6 +19,7 @@ export default function Canvas({ params }: { params: Promise<{ roomId: string }>
   const [fontSize, setFontSize] = useState(20)
   const fontSizeRef = useRef(20)
   const wsRef = useRef<WebSocket|null>(null)
+  const [showUserCard, setShowUserCard] = useState(false)
   function handleSetFontSize(size: number) {
   setFontSize(size)
   fontSizeRef.current = size
@@ -35,64 +38,84 @@ export default function Canvas({ params }: { params: Promise<{ roomId: string }>
   roomId,
   wsRef
 })
-
+useWebSocket(roomId, strokesRef, setStrokes, drawStroke, wsRef)
+ 
   return (
     <div className="relative w-screen h-screen bg-white">
-      <div className="absolute top-0 left-0 w-full bg-slate-900 z-50 flex items-center border-b-4 border-slate-700 justify-between px-6 h-28">
-        <div>
-          <Logo />
-        </div>
-        <div>
-          <DrawBar
-            filled={filled}
-            setFilled={setFilled}
-            activeTool={activeTool}
-            setActiveTool={setActiveTool}
-            activeColor={activeColor}
-            setActiveColor={setActiveColor}
-            fontSize={fontSize}
-            setFontSize={handleSetFontSize}
-          />
-        </div>
-        <div className="cursor-pointer">
-          <img src="/images/user.png" className="h-12 w-12" />
-        </div>
-      </div>
 
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 z-0"
-        onMouseDown={startDrawing}
-        onMouseMove={draw}
-        onMouseUp={stopDrawing}
-        onMouseLeave={stopDrawing}
-      />
-
-      {isTyping && textPosition && (
-        <input
-          autoFocus
-          className="absolute bg-transparent border-none outline-none font-geist text-black z-50"
-          style={{
-            left: textPosition.x,
-            top: textPosition.y,
-            fontSize: `${fontSizeRef.current}px`
-          }}
-          value={textInput}
-          onChange={(e) => setTextInput(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") commitText()
-            if (e.key === "Escape") {
-              setTextInput("")
-              setTextPosition(null)
-              setIsTyping(false)
-            }
-          }}
-          onBlur={(e) => {
-            if (e.relatedTarget === canvasRef.current) return
-            commitText()
-          }}
-        />
+      {/* UserCard overlay */}
+      {showUserCard && (
+        <div
+          className="fixed inset-0 z-50 flex justify-end items-start pt-24 pr-8"
+          onClick={() => setShowUserCard(false)}
+        >
+          <div onClick={(e) => e.stopPropagation()}>
+            <UserCard needdashboard={true} />
+          </div>
+        </div>
       )}
+
+      <div className={showUserCard ? "blur-sm pointer-events-none" : ""}>
+        <div className="absolute top-0 left-0 w-full bg-slate-900 z-50 flex items-center border-b-4 border-slate-700 justify-between px-6 h-28">
+          <div>
+            <Logo />
+          </div>
+          <div>
+            <DrawBar
+              filled={filled}
+              setFilled={setFilled}
+              activeTool={activeTool}
+              setActiveTool={setActiveTool}
+              activeColor={activeColor}
+              setActiveColor={setActiveColor}
+              fontSize={fontSize}
+              setFontSize={handleSetFontSize}
+            />
+          </div>
+          <div className="cursor-pointer">
+            <img 
+              onClick={() => setShowUserCard(true)}
+              src="/images/user.png" 
+              className="h-10 w-10 hover:opacity-80 transition-all" 
+            />
+          </div>
+        </div>
+
+        <canvas
+          ref={canvasRef}
+          className="absolute inset-0 z-0"
+          onMouseDown={startDrawing}
+          onMouseMove={draw}
+          onMouseUp={stopDrawing}
+          onMouseLeave={stopDrawing}
+        />
+
+        {isTyping && textPosition && (
+          <input
+            autoFocus
+            className="absolute bg-transparent border-none outline-none font-geist text-black z-50"
+            style={{
+              left: textPosition.x,
+              top: textPosition.y,
+              fontSize: `${fontSizeRef.current}px`
+            }}
+            value={textInput}
+            onChange={(e) => setTextInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") commitText()
+              if (e.key === "Escape") {
+                setTextInput("")
+                setTextPosition(null)
+                setIsTyping(false)
+              }
+            }}
+            onBlur={(e) => {
+              if (e.relatedTarget === canvasRef.current) return
+              commitText()
+            }}
+          />
+        )}
+      </div>
     </div>
   )
 }

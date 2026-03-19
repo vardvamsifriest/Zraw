@@ -54,7 +54,7 @@ app.post("/room", middleware, async (req, res) => {
     res.json({ message: "Incorrect input" })
     return
   }
-
+  
   const { slug } = req.body
   const authReq = req as AuthRequest
 
@@ -67,5 +67,30 @@ app.post("/room", middleware, async (req, res) => {
 
   res.json({ roomId: room.id })
 })
+app.get("/rooms", middleware, async (req, res) => {
+  const authReq = req as AuthRequest
+  const rooms = await prisma.room.findMany({
+    where: { adminId: Number(authReq.userId) }  // ← add this
+  })
+  res.json({ rooms })
+})
 
+app.get("/joined-rooms", middleware, async (req, res) => {
+  const authReq = req as AuthRequest
+  const chats = await prisma.chat.findMany({
+    where: { userId: Number(authReq.userId) },
+    select: { room: true },
+    distinct: ["roomId"]
+  })
+  const rooms = chats.map(chat => chat.room)
+  res.json({ rooms })
+})
+app.get("/me", middleware, async (req, res) => {
+  const authReq = req as AuthRequest
+  const user = await prisma.user.findUnique({
+    where: { id: Number(authReq.userId) },
+    select: { username: true, email: true }
+  })
+  res.json({ user })
+})
 app.listen(3001)

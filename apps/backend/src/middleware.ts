@@ -7,11 +7,16 @@ export interface AuthRequest extends Request {
 }
 
 export function middleware(req: AuthRequest, res: Response, next: NextFunction) {
-  const token = req.headers["authorization"] ?? ""
-  const decoded = jwt.verify(token, JWT_SECRET) as { userId: string }
-
-  if (decoded) {
-    req.userId = decoded.userId
-    next()
+  try {
+    const token = req.headers["authorization"] ?? ""
+    const decoded = jwt.verify(token, JWT_SECRET) as { userId: string }
+    if (decoded) {
+      req.userId = decoded.userId
+      next()
+    } else {
+      res.status(401).json({ message: "Unauthorized" })
+    }
+  } catch (e) {
+    res.status(401).json({ message: "Unauthorized" })
   }
 }

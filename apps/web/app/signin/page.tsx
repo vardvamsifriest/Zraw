@@ -5,18 +5,22 @@ import axios from "axios"
 import { useRouter } from "next/navigation"
 export default function Signin()
 { const router = useRouter()
-    async function HandleSignin(email:string , password:string)
+    async function HandleSignin(email:string , password:string,username:string)
     {
             try {
             const response = await axios.post("http://localhost:3001/signin" , {
             email,
             password
         })
-        if(response.status == 200 || response.status==201)
+       
+        if(response.data.token)
         {
             const token = response.data.token
-            localStorage.setItem("token", token)
-           router.push("dashboard")
+            localStorage.setItem("token", response.data.token)
+           router.push("/dashboard")
+        }
+        else{
+            console.log("Login Failed" , response.data.message)
         }
     }
     catch(e:any)

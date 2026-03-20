@@ -9,7 +9,6 @@ export function useWebSocket(
     wsRef = useRef<WebSocket | null>(null)
 ) {
  
-
   useEffect(() => {
     const token = localStorage.getItem("token")
     const ws = new WebSocket(`ws://localhost:8080?token=${token}`)

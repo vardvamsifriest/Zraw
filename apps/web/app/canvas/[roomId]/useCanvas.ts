@@ -26,7 +26,7 @@ export function useCanvas(props: UseCanvasProps) {
   function handleSetFontSize(size: number) {
   setFontSize(size)
   fontSizeRef.current = size
-  console.log("fontSizeRef updated to:", fontSizeRef.current)
+  
 }
   useEffect(() => {
     const canvas = canvasRef.current

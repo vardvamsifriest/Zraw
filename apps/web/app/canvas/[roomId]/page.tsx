@@ -1,49 +1,53 @@
 "use client"
-import { useState ,useRef } from "react"
+import { useState, useRef } from "react"
 import { use } from "react"
 import { DrawBar } from "../../components/drawbar"
 import { Logo } from "@repo/ui/logo"
 import { Stroke } from "./types"
 import { useCanvas } from "./useCanvas"
-import { Button } from "@repo/ui/button"
 import { UserCard } from "../../components/usercard"
 import { useWebSocket } from "./useWebSocket"
 
 export default function Canvas({ params }: { params: Promise<{ roomId: string }> }) {
+  const resolvedParams = use(params)
+  const roomId = String(resolvedParams.roomId)
+  console.log("roomId type:", typeof roomId, "value:", roomId)
+
   const [isDrawing, setIsDrawing] = useState(false)
   const [strokes, setStrokes] = useState<Stroke[]>([])
   const [filled, setFilled] = useState(false)
   const [activeTool, setActiveTool] = useState("pen")
   const [activeColor, setActiveColor] = useState("black")
-  const { roomId } = use(params)
   const [fontSize, setFontSize] = useState(20)
   const fontSizeRef = useRef(20)
-  const wsRef = useRef<WebSocket|null>(null)
+  const wsRef = useRef<WebSocket | null>(null)
   const [showUserCard, setShowUserCard] = useState(false)
+
   function handleSetFontSize(size: number) {
-  setFontSize(size)
-  fontSizeRef.current = size
-  console.log("fontSizeRef updated to:", fontSizeRef.current)
-}
+    setFontSize(size)
+    fontSizeRef.current = size
+  }
 
   const {
-  canvasRef, strokesRef, startDrawing, draw, stopDrawing,
-  drawStroke, commitText, isTyping, textPosition, textInput,
-  setTextInput, setTextPosition, setIsTyping
-} = useCanvas({
-  activeTool,
-  activeColor,
-  filled,
-  fontSizeRef,
-  roomId,
-  wsRef
-})
-useWebSocket(roomId, strokesRef, setStrokes, drawStroke, wsRef)
- 
+    canvasRef, strokesRef, startDrawing, draw, stopDrawing,
+    drawStroke, commitText, isTyping, textPosition, textInput,
+    setTextInput, setTextPosition, setIsTyping
+  } = useCanvas({
+    activeTool,
+    activeColor,
+    filled,
+    fontSizeRef,
+    roomId,
+    wsRef
+  })
+
+  useWebSocket(roomId, strokesRef, setStrokes, drawStroke, wsRef)
+
+  
+
   return (
     <div className="relative w-screen h-screen bg-white">
 
-      {/* UserCard overlay */}
       {showUserCard && (
         <div
           className="fixed inset-0 z-50 flex justify-end items-start pt-24 pr-8"
@@ -73,10 +77,10 @@ useWebSocket(roomId, strokesRef, setStrokes, drawStroke, wsRef)
             />
           </div>
           <div className="cursor-pointer">
-            <img 
+            <img
               onClick={() => setShowUserCard(true)}
-              src="/images/user.png" 
-              className="h-10 w-10 hover:opacity-80 transition-all" 
+              src="/images/user.png"
+              className="h-10 w-10 hover:opacity-80 transition-all"
             />
           </div>
         </div>

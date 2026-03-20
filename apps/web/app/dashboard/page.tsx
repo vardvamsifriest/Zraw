@@ -14,7 +14,7 @@ export default function Dashboard() {
   const [joinedRooms , setJoinedRooms] = useState([])
   const [createdRooms , setCreatedRooms] = useState([])
   const [createdRoomId , setCreatedRoomId] = useState("")
-  const [showUsercard , setShowUsercard] = useState(false)
+  const [showUserCard , setShowUserCard] = useState(false)
 
   useEffect(() => {
     const token = localStorage.getItem("token")
@@ -43,24 +43,39 @@ export default function Dashboard() {
     { slug },
     { headers: { authorization: token } }
   )
-  setCreatedRoomId(response.data.roomId)
+   
+  const roomId = response.data.roomId
+  setCreatedRoomId(roomId)
   await fetchRooms()
-  router.push(`/canvas/${response.data.roomId}`)
+  router.push(`/canvas/${String(roomId)}`)
 }
 
-  function joinRoom(roomId: number) {
-    router.push(`/canvas/${roomId}`)
+async function joinRoom(roomId?: number) {
+  if (roomId) {
+    router.push(`/canvas/${String(roomId)}`)
+    return
   }
+}
+async function handleJoinByCode()
+{
+  const token = localStorage.getItem("token")
+  const response = await axios.get(`http://localhost:3001/room/${joinId}`, {
+    headers: { authorization: token || "" }
+  })
+ 
+  const fetchedRoomId = response.data.roomId
+  router.push(`/canvas/${String(fetchedRoomId)}`)
+}
 
   return (
    
   <div className="bg-slate-900 min-h-screen w-full">
 
-    {/* UserCard overlay */}
-    {showUsercard && (
+    
+    {showUserCard && (
       <div 
         className="fixed inset-0 z-50 flex justify-end items-start pt-24 pr-8"
-        onClick={() => setShowUsercard(false)}
+        onClick={() => setShowUserCard(false)}
       >
         <div onClick={(e) => e.stopPropagation()}>
           <UserCard needdashboard={false}  />
@@ -68,27 +83,24 @@ export default function Dashboard() {
       </div>
     )}
 
-    <div className={showUsercard ? "blur-sm pointer-events-none" : ""}>
+    <div className={showUserCard ? "blur-sm pointer-events-none" : ""}>
       
-      {/* Navbar */}
       <div className="h-20 flex items-center w-full border-b border-slate-700 bg-slate-900 px-8">
         <Logo />
         <div className="ml-auto">
           <img 
-            onClick={() => setShowUsercard(true)} 
+            onClick={() => setShowUserCard(true)} 
             src="/images/user.png" 
             className="h-10 w-10 cursor-pointer hover:opacity-80 transition-all" 
           />
         </div>
       </div>
 
-      {/* Main content */}
       <div className="max-w-6xl mx-auto p-8 flex flex-col gap-10">
 
-        {/* Create + Join cards */}
+        
         <div className="flex gap-6 mt-4">
-          
-          {/* Create Room */}
+         
           <div className="bg-slate-800 border border-slate-700 rounded-2xl p-8 flex flex-col gap-4 flex-1 hover:border-slate-500 transition-all">
             <div>
               <p className="text-white text-xl font-geist font-semibold">Create a Room</p>
@@ -113,7 +125,7 @@ export default function Dashboard() {
             )}
           </div>
 
-          {/* Join Room */}
+         
           <div className="bg-slate-800 border border-slate-700 rounded-2xl p-8 flex flex-col gap-4 flex-1 hover:border-slate-500 transition-all">
             <div>
               <p className="text-white text-xl font-geist font-semibold">Join a Room</p>
@@ -122,10 +134,10 @@ export default function Dashboard() {
             <input
               value={joinId}
               onChange={(e) => setJoinId(e.target.value)}
-              placeholder="Enter Room ID"
+              placeholder="Enter Room Code"
               className="bg-slate-900 text-white border border-slate-600 rounded-lg px-4 py-3 font-geist outline-none focus:border-slate-400 transition-all"
             />
-            <Button onClick={() => router.push(`/canvas/${joinId}`)} size="md" text="Join" variant="primary" />
+            <Button onClick={handleJoinByCode} size="md" text="Join" variant="primary" />
           </div>
 
         </div>
@@ -134,7 +146,7 @@ export default function Dashboard() {
   {createdRooms.map((room: any) => (
     <div key={room.id} onClick={() => joinRoom(room.id)} className="bg-slate-800 border border-slate-600 rounded-xl p-6 cursor-pointer hover:border-slate-400">
       <p className="text-white font-geist font-semibold">{room.slug}</p>
-      <p className="text-slate-400 text-sm">Room ID: {room.id}</p>
+      <p className="text-slate-400 text-sm">Room Code: {room.code}</p>
     </div>
   ))}
 </div>
@@ -145,7 +157,7 @@ export default function Dashboard() {
   {joinedRooms.map((room: any) => (
     <div key={room.id} onClick={() => joinRoom(room.id)} className="bg-slate-800 border border-slate-600 rounded-xl p-6 cursor-pointer hover:border-slate-400">
       <p className="text-white font-geist font-semibold">{room.slug}</p>
-      <p className="text-slate-400 text-sm">Room ID: {room.id}</p>
+      <p className="text-slate-400 text-sm">Room ID: {room.code}</p>
     </div>
   ))}
 </div>

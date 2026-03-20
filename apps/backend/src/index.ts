@@ -32,6 +32,7 @@ app.post("/signin", async (req, res) => {
   const data = SigninSchema.safeParse(req.body)
   if (!data.success) {
     res.json({ message: "Incorrect credentials" })
+    
     return
   }
 
@@ -40,7 +41,7 @@ app.post("/signin", async (req, res) => {
   const user = await prisma.user.findUnique({ where: { email } })
 
   if (!user || user.password !== password) {
-    res.json({ message: "Invalid credentials" })
+    res.status(401).json({ message: "Invalid credentials" })
     return
   }
 
@@ -99,5 +100,16 @@ app.get("/chats/:roomId", middleware, async (req, res) => {
     orderBy: { id: "asc" }
   })
   res.json({ chats })
+})
+app.get("/room/:code", middleware, async (req, res) => {
+  const code = String(req.params.code)
+  const room = await prisma.room.findUnique({
+    where: { code }
+  })
+  if (!room) {
+    res.json({ message: "Room not found" })
+    return
+  }
+  res.json({ roomId: room.id })
 })
 app.listen(3001)

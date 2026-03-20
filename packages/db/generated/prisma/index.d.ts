@@ -3384,6 +3384,7 @@ export namespace Prisma {
     id: number | null
     slug: string | null
     createdAt: Date | null
+    code: string | null
     adminId: number | null
   }
 
@@ -3391,6 +3392,7 @@ export namespace Prisma {
     id: number | null
     slug: string | null
     createdAt: Date | null
+    code: string | null
     adminId: number | null
   }
 
@@ -3398,6 +3400,7 @@ export namespace Prisma {
     id: number
     slug: number
     createdAt: number
+    code: number
     adminId: number
     _all: number
   }
@@ -3417,6 +3420,7 @@ export namespace Prisma {
     id?: true
     slug?: true
     createdAt?: true
+    code?: true
     adminId?: true
   }
 
@@ -3424,6 +3428,7 @@ export namespace Prisma {
     id?: true
     slug?: true
     createdAt?: true
+    code?: true
     adminId?: true
   }
 
@@ -3431,6 +3436,7 @@ export namespace Prisma {
     id?: true
     slug?: true
     createdAt?: true
+    code?: true
     adminId?: true
     _all?: true
   }
@@ -3525,6 +3531,7 @@ export namespace Prisma {
     id: number
     slug: string
     createdAt: Date
+    code: string
     adminId: number
     _count: RoomCountAggregateOutputType | null
     _avg: RoomAvgAggregateOutputType | null
@@ -3551,6 +3558,7 @@ export namespace Prisma {
     id?: boolean
     slug?: boolean
     createdAt?: boolean
+    code?: boolean
     adminId?: boolean
     admin?: boolean | UserDefaultArgs<ExtArgs>
     chats?: boolean | Room$chatsArgs<ExtArgs>
@@ -3561,6 +3569,7 @@ export namespace Prisma {
     id?: boolean
     slug?: boolean
     createdAt?: boolean
+    code?: boolean
     adminId?: boolean
     admin?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["room"]>
@@ -3569,6 +3578,7 @@ export namespace Prisma {
     id?: boolean
     slug?: boolean
     createdAt?: boolean
+    code?: boolean
     adminId?: boolean
     admin?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["room"]>
@@ -3577,10 +3587,11 @@ export namespace Prisma {
     id?: boolean
     slug?: boolean
     createdAt?: boolean
+    code?: boolean
     adminId?: boolean
   }
 
-  export type RoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "createdAt" | "adminId", ExtArgs["result"]["room"]>
+  export type RoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "createdAt" | "code" | "adminId", ExtArgs["result"]["room"]>
   export type RoomInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     admin?: boolean | UserDefaultArgs<ExtArgs>
     chats?: boolean | Room$chatsArgs<ExtArgs>
@@ -3603,6 +3614,7 @@ export namespace Prisma {
       id: number
       slug: string
       createdAt: Date
+      code: string
       adminId: number
     }, ExtArgs["result"]["room"]>
     composites: {}
@@ -4032,6 +4044,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Room", 'Int'>
     readonly slug: FieldRef<"Room", 'String'>
     readonly createdAt: FieldRef<"Room", 'DateTime'>
+    readonly code: FieldRef<"Room", 'String'>
     readonly adminId: FieldRef<"Room", 'Int'>
   }
     
@@ -4511,6 +4524,7 @@ export namespace Prisma {
     id: 'id',
     slug: 'slug',
     createdAt: 'createdAt',
+    code: 'code',
     adminId: 'adminId'
   };
 
@@ -4732,6 +4746,7 @@ export namespace Prisma {
     id?: IntFilter<"Room"> | number
     slug?: StringFilter<"Room"> | string
     createdAt?: DateTimeFilter<"Room"> | Date | string
+    code?: StringFilter<"Room"> | string
     adminId?: IntFilter<"Room"> | number
     admin?: XOR<UserScalarRelationFilter, UserWhereInput>
     chats?: ChatListRelationFilter
@@ -4741,6 +4756,7 @@ export namespace Prisma {
     id?: SortOrder
     slug?: SortOrder
     createdAt?: SortOrder
+    code?: SortOrder
     adminId?: SortOrder
     admin?: UserOrderByWithRelationInput
     chats?: ChatOrderByRelationAggregateInput
@@ -4749,6 +4765,7 @@ export namespace Prisma {
   export type RoomWhereUniqueInput = Prisma.AtLeast<{
     id?: number
     slug?: string
+    code?: string
     AND?: RoomWhereInput | RoomWhereInput[]
     OR?: RoomWhereInput[]
     NOT?: RoomWhereInput | RoomWhereInput[]
@@ -4756,12 +4773,13 @@ export namespace Prisma {
     adminId?: IntFilter<"Room"> | number
     admin?: XOR<UserScalarRelationFilter, UserWhereInput>
     chats?: ChatListRelationFilter
-  }, "id" | "slug">
+  }, "id" | "slug" | "code">
 
   export type RoomOrderByWithAggregationInput = {
     id?: SortOrder
     slug?: SortOrder
     createdAt?: SortOrder
+    code?: SortOrder
     adminId?: SortOrder
     _count?: RoomCountOrderByAggregateInput
     _avg?: RoomAvgOrderByAggregateInput
@@ -4777,6 +4795,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"Room"> | number
     slug?: StringWithAggregatesFilter<"Room"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Room"> | Date | string
+    code?: StringWithAggregatesFilter<"Room"> | string
     adminId?: IntWithAggregatesFilter<"Room"> | number
   }
 
@@ -4895,6 +4914,7 @@ export namespace Prisma {
   export type RoomCreateInput = {
     slug: string
     createdAt?: Date | string
+    code?: string
     admin: UserCreateNestedOneWithoutRoomsInput
     chats?: ChatCreateNestedManyWithoutRoomInput
   }
@@ -4903,6 +4923,7 @@ export namespace Prisma {
     id?: number
     slug: string
     createdAt?: Date | string
+    code?: string
     adminId: number
     chats?: ChatUncheckedCreateNestedManyWithoutRoomInput
   }
@@ -4910,6 +4931,7 @@ export namespace Prisma {
   export type RoomUpdateInput = {
     slug?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    code?: StringFieldUpdateOperationsInput | string
     admin?: UserUpdateOneRequiredWithoutRoomsNestedInput
     chats?: ChatUpdateManyWithoutRoomNestedInput
   }
@@ -4918,6 +4940,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    code?: StringFieldUpdateOperationsInput | string
     adminId?: IntFieldUpdateOperationsInput | number
     chats?: ChatUncheckedUpdateManyWithoutRoomNestedInput
   }
@@ -4926,18 +4949,21 @@ export namespace Prisma {
     id?: number
     slug: string
     createdAt?: Date | string
+    code?: string
     adminId: number
   }
 
   export type RoomUpdateManyMutationInput = {
     slug?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    code?: StringFieldUpdateOperationsInput | string
   }
 
   export type RoomUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    code?: StringFieldUpdateOperationsInput | string
     adminId?: IntFieldUpdateOperationsInput | number
   }
 
@@ -5152,6 +5178,7 @@ export namespace Prisma {
     id?: SortOrder
     slug?: SortOrder
     createdAt?: SortOrder
+    code?: SortOrder
     adminId?: SortOrder
   }
 
@@ -5164,6 +5191,7 @@ export namespace Prisma {
     id?: SortOrder
     slug?: SortOrder
     createdAt?: SortOrder
+    code?: SortOrder
     adminId?: SortOrder
   }
 
@@ -5171,6 +5199,7 @@ export namespace Prisma {
     id?: SortOrder
     slug?: SortOrder
     createdAt?: SortOrder
+    code?: SortOrder
     adminId?: SortOrder
   }
 
@@ -5520,6 +5549,7 @@ export namespace Prisma {
   export type RoomCreateWithoutAdminInput = {
     slug: string
     createdAt?: Date | string
+    code?: string
     chats?: ChatCreateNestedManyWithoutRoomInput
   }
 
@@ -5527,6 +5557,7 @@ export namespace Prisma {
     id?: number
     slug: string
     createdAt?: Date | string
+    code?: string
     chats?: ChatUncheckedCreateNestedManyWithoutRoomInput
   }
 
@@ -5584,6 +5615,7 @@ export namespace Prisma {
     id?: IntFilter<"Room"> | number
     slug?: StringFilter<"Room"> | string
     createdAt?: DateTimeFilter<"Room"> | Date | string
+    code?: StringFilter<"Room"> | string
     adminId?: IntFilter<"Room"> | number
   }
 
@@ -5616,6 +5648,7 @@ export namespace Prisma {
   export type RoomCreateWithoutChatsInput = {
     slug: string
     createdAt?: Date | string
+    code?: string
     admin: UserCreateNestedOneWithoutRoomsInput
   }
 
@@ -5623,6 +5656,7 @@ export namespace Prisma {
     id?: number
     slug: string
     createdAt?: Date | string
+    code?: string
     adminId: number
   }
 
@@ -5669,6 +5703,7 @@ export namespace Prisma {
   export type RoomUpdateWithoutChatsInput = {
     slug?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    code?: StringFieldUpdateOperationsInput | string
     admin?: UserUpdateOneRequiredWithoutRoomsNestedInput
   }
 
@@ -5676,6 +5711,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    code?: StringFieldUpdateOperationsInput | string
     adminId?: IntFieldUpdateOperationsInput | number
   }
 
@@ -5804,6 +5840,7 @@ export namespace Prisma {
     id?: number
     slug: string
     createdAt?: Date | string
+    code?: string
   }
 
   export type ChatCreateManyUserInput = {
@@ -5815,6 +5852,7 @@ export namespace Prisma {
   export type RoomUpdateWithoutAdminInput = {
     slug?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    code?: StringFieldUpdateOperationsInput | string
     chats?: ChatUpdateManyWithoutRoomNestedInput
   }
 
@@ -5822,6 +5860,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    code?: StringFieldUpdateOperationsInput | string
     chats?: ChatUncheckedUpdateManyWithoutRoomNestedInput
   }
 
@@ -5829,6 +5868,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     slug?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    code?: StringFieldUpdateOperationsInput | string
   }
 
   export type ChatUpdateWithoutUserInput = {

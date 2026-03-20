@@ -3,6 +3,7 @@ import { InputBox } from "./inputbox";
 import { Button } from "./button";
 import Link from "next/link";
 import { useState } from "react";
+import {CreateUserSchema , SigninSchema} from "@repo/common"
 interface cardprops {
   size: "sm" | "md" | "lg";
   needusername: boolean;
@@ -21,6 +22,29 @@ export function Card(props: cardprops) {
   const [email , setEmail] = useState("")
 const [password , setPassword] = useState("")
 const [username , setUsername] = useState("")
+const [error , setError] = useState("")
+  function handleClick()
+  {
+    setError("")
+    if(props.needusername)
+    {
+      const result = CreateUserSchema.safeParse({email,username,password})
+      if(!result.success)
+      {
+        setError(result.error.issues[0]!.message)
+        return
+      }
+      else {
+        const result = SigninSchema.safeParse({email , password})
+        if(!result.success)
+        {
+          setError(result.error.issues[0]!.message)
+          return
+        }
+      }
+    }
+      props.onClick?.(email,password,username)
+  }
   return (
     <div className={`${SizeStyles[props.size]} bg-zinc-100 backdrop-blur-sm border-4 border-slate-600 rounded-xl shadow-xl p-6 flex flex-col gap-4`}>
        <div className="flex justify-center">

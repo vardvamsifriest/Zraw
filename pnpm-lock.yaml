@@ -228,6 +228,9 @@ importers:
         specifier: ^19.2.0
         version: 19.2.0(react@19.2.0)
     devDependencies:
+      '@repo/common':
+        specifier: workspace:*
+        version: link:../common
       '@repo/eslint-config':
         specifier: workspace:*
         version: link:../eslint-config

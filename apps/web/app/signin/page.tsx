@@ -29,14 +29,13 @@ export default function Signin()
     }
     }
     return (
-        <div className="bg-slate-900 w-full h-screen">
-            <div className="bg-slate-900 flex justify-center h-24 w-full border-b-4 border-slate-700">
-                <Logo/>
-            </div>
-         
-            <div className="flex justify-center pt-45">
-            <Card onClick={HandleSignin} text="Submit" size="sm" needusername={false} title="Sign In" link={false} />
-            </div>
-        </div>
-    )
+  <div className="bg-slate-900 min-h-screen w-full flex flex-col">
+    <div className="flex justify-center items-center h-24 w-full border-b-4 border-slate-700">
+      <Logo />
+    </div>
+    <div className="flex justify-center items-center flex-1 px-4">
+      <Card onClick={HandleSignin} text="Submit" size="sm" needusername={false} title="Sign In" link={false} />
+    </div>
+  </div>
+)
 }

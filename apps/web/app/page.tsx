@@ -23,32 +23,40 @@ export default function Landing() {
   return (
     <div className="bg-slate-900 min-h-screen w-full">
       
-  
-<div className="relative flex items-center justify-center px-8 py-4 border-b border-slate-700">
-  <div className="absolute left-8">
     
-  </div>
-  <Logo />
-  <div className="absolute right-8">
-    <Button img={<img src = "arrow_v1.gif" className="h-10 w-10"/>} onClick={() => router.push("/signup")} size="sm" text="Get Started" variant="primary" />
-  </div>
-</div>
-
-     
-      <div className="flex flex-col items-center pt-16 gap-4">
-        <p className="text-white text-6xl font-bold font-azeret tracking-tight">
-          Draw.Think.Collaborate.
-        </p>
-        <p className="text-slate-400 text-xl font-geist">
-          The open canvas for your best ideas.
-        </p>
-        <div className="mt-4">
-          <Button img={<img src = "arrow_v1.gif" className="h-10 w-10"/>}  onClick={() => router.push("/signup")} size="md" text="Get Started" variant="primary" />
+      <div className="relative flex items-center justify-center px-4 md:px-8 py-4 border-b border-slate-700">
+        <Logo />
+        <div className="absolute right-4 md:right-8">
+          <Button 
+            img={<img src="arrow_v1.gif" className="h-6 w-6 md:h-10 md:w-10"/>} 
+            onClick={() => router.push("/signup")} 
+            size="sm" 
+            text="Get Started" 
+            variant="primary" 
+          />
         </div>
       </div>
 
-      
-      <div className="flex justify-center mt-12 px-8">
+     
+      <div className="flex flex-col items-center pt-10 md:pt-16 gap-4 px-4">
+        <p className="text-white text-3xl md:text-5xl lg:text-6xl font-bold font-azeret tracking-tight text-center">
+          Draw.Think.Collaborate.
+        </p>
+        <p className="text-slate-400 text-base md:text-xl font-geist text-center">
+          The open canvas for your best ideas.
+        </p>
+        <div className="mt-4">
+          <Button 
+            img={<img src="arrow_v1.gif" className="h-6 w-6 md:h-10 md:w-10"/>} 
+            onClick={() => router.push("/signup")} 
+            size="md" 
+            text="Get Started" 
+            variant="primary" 
+          />
+        </div>
+      </div>
+
+      <div className="flex justify-center mt-8 md:mt-12 px-4 md:px-8">
         <div className="relative w-full max-w-5xl rounded-xl overflow-hidden shadow-2xl border border-slate-700">
           {images.map((src, i) => (
             <img
@@ -60,8 +68,8 @@ export default function Landing() {
         </div>
       </div>
 
-    
-      <div className="flex justify-center gap-2 mt-4">
+   
+      <div className="flex justify-center gap-2 mt-4 pb-8">
         {images.map((_, i) => (
           <button
             key={i}

@@ -5,6 +5,7 @@ import { middleware, AuthRequest } from "./middleware"
 import { prisma } from "@repo/db"
 import { CreateRoomSchema, CreateUserSchema, SigninSchema } from "@repo/common"
 import cors from "cors"
+import bcrypt from "bcrypt"
 const app = express()
 app.use(cors())
 app.use(express.json())
@@ -19,8 +20,9 @@ app.post("/signup", async (req, res) => {
   const { email, password, username } = req.body
 
   try {
+    const hashedPassword = await bcrypt.hash(password,10)
     const user = await prisma.user.create({
-      data: { email, password, username }
+      data: { email, password:hashedPassword, username }
     })
     res.json({ userId: user.id })
   } catch (e) {
@@ -29,23 +31,23 @@ app.post("/signup", async (req, res) => {
   }
 })
 app.post("/signin", async (req, res) => {
-  const data = SigninSchema.safeParse(req.body)
-  if (!data.success) {
-    res.json({ message: "Incorrect credentials" })
-    
-    return
+  const { email, password } = req.body  
+  const user = await prisma.user.findUnique({
+    where: { email }
+  })
+
+  if (!user) {
+    return res.json({ message: "Invalid credentials" })
   }
 
-  const { email, password } = req.body
+  const passwordMatch = await bcrypt.compare(password, user.password)
 
-  const user = await prisma.user.findUnique({ where: { email } })
-
-  if (!user || user.password !== password) {
-    res.status(401).json({ message: "Invalid credentials" })
-    return
+  if (!passwordMatch) {
+    return res.json({ message: "Invalid credentials" })
   }
 
   const token = jwt.sign({ userId: user.id }, JWT_SECRET)
+
   res.json({ token })
 })
 

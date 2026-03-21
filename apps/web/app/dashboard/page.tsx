@@ -15,6 +15,7 @@ export default function Dashboard() {
   const [createdRooms , setCreatedRooms] = useState([])
   const [createdRoomId , setCreatedRoomId] = useState("")
   const [showUserCard , setShowUserCard] = useState(false)
+  const [joinError , setJoinError] = useState("")
 
   useEffect(() => {
     const token = localStorage.getItem("token")
@@ -24,7 +25,7 @@ export default function Dashboard() {
     }
     fetchRooms()
   }, [])
-
+  
   async function fetchRooms() {
   const token = localStorage.getItem("token")
   const headers : Record<string ,string> = { authorization: token || "" }
@@ -56,15 +57,23 @@ async function joinRoom(roomId?: number) {
     return
   }
 }
-async function handleJoinByCode()
-{
-  const token = localStorage.getItem("token")
-  const response = await axios.get(`http://localhost:3001/room/${joinId}`, {
-    headers: { authorization: token || "" }
-  })
- 
-  const fetchedRoomId = response.data.roomId
-  router.push(`/canvas/${String(fetchedRoomId)}`)
+async function handleJoinByCode() {
+  try {
+    const token = localStorage.getItem("token")
+    const response = await axios.get(`http://localhost:3001/room/${joinId}`, {
+      headers: { authorization: token || "" }
+    })
+    
+    if (!response.data.roomId) {
+      setJoinError("Room not found. Check the code and try again.")
+      return
+    }
+    
+    setJoinError("")
+    router.push(`/canvas/${String(response.data.roomId)}`)
+  } catch(e) {
+    setJoinError("Room not found. Check the code and try again.")
+  }
 }
 
   return (
@@ -83,7 +92,7 @@ async function handleJoinByCode()
 
     <div className={showUserCard ? "blur-sm pointer-events-none" : ""}>
       
-      {/* Navbar */}
+   
       <div className="h-20 flex items-center w-full border-b border-slate-700 bg-slate-900 px-4 md:px-8">
         <Logo />
         <div className="ml-auto">
@@ -95,13 +104,13 @@ async function handleJoinByCode()
         </div>
       </div>
 
-      {/* Main content */}
+  
       <div className="max-w-6xl mx-auto p-4 md:p-8 flex flex-col gap-8 md:gap-10">
 
-        {/* Create + Join — stack on mobile */}
+        
         <div className="flex flex-col md:flex-row gap-6 mt-4">
           
-          {/* Create Room */}
+         
           <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 md:p-8 flex flex-col gap-4 flex-1 hover:border-slate-500 transition-all">
             <div>
               <p className="text-white text-lg md:text-xl font-geist font-semibold">Create a Room</p>
@@ -126,9 +135,12 @@ async function handleJoinByCode()
             )}
           </div>
 
-          {/* Join Room */}
+         
           <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 md:p-8 flex flex-col gap-4 flex-1 hover:border-slate-500 transition-all">
             <div>
+               {joinError && (
+            <p className="text-red-400 text-sm font-geist">{joinError}</p>
+              )}
               <p className="text-white text-lg md:text-xl font-geist font-semibold">Join a Room</p>
               <p className="text-slate-400 text-sm font-geist mt-1">Enter a Room ID to collaborate with others</p>
             </div>
@@ -140,10 +152,10 @@ async function handleJoinByCode()
             />
             <Button onClick={handleJoinByCode} size="md" text="Join" variant="primary" />
           </div>
-
+           
         </div>
 
-        {/* Your Rooms */}
+      
         <div className="flex flex-col gap-4">
           <p className="text-white font-geist font-semibold text-lg md:text-xl">Your Rooms</p>
           {createdRooms.length === 0 ? (
@@ -163,7 +175,7 @@ async function handleJoinByCode()
           )}
         </div>
 
-        {/* Joined Rooms */}
+       
         <div className="flex flex-col gap-4">
           <p className="text-white font-geist font-semibold text-lg md:text-xl">Joined Rooms</p>
           {joinedRooms.length === 0 ? (

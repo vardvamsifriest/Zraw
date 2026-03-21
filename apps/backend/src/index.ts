@@ -81,7 +81,11 @@ app.get("/rooms", middleware, async (req, res) => {
 app.get("/joined-rooms", middleware, async (req, res) => {
   const authReq = req as AuthRequest
   const chats = await prisma.chat.findMany({
-    where: { userId: Number(authReq.userId) },
+    where: { userId: Number(authReq.userId),
+      room:{
+        adminId : {not:Number(authReq.userId)}
+      }
+     },
     select: { room: true },
     distinct: ["roomId"]
   })

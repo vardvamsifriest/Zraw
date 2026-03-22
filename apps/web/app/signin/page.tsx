@@ -8,7 +8,7 @@ export default function Signin()
     async function HandleSignin(email:string , password:string,username:string)
     {
             try {
-            const response = await axios.post("http://localhost:3001/signin" , {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/signin` , {
             email,
             password
         })

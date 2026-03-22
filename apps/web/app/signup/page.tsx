@@ -7,17 +7,18 @@ export default function Signup()
 {   const router = useRouter()
     async function handleSignup(email:string , password:string , username:string)
     {
-        try {
-            const response = await axios.post("http://localhost:3001/signup",{
-                email,
-                password,
-                username
-            })
+      try {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/signup`, {
+      email,
+       password,
+      username
+        })
             if(response.status==200 || response.status==201)
             {
                 router.push("/signin")
             }
         }
+      
         catch(e:any)
         {
             console.log("Signup error:", e?.response?.data || e.message)

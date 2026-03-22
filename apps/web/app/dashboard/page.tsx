@@ -31,8 +31,8 @@ export default function Dashboard() {
   const headers : Record<string ,string> = { authorization: token || "" }
   
   const [created, joined] = await Promise.all([
-    axios.get("http://localhost:3001/rooms", { headers }),
-    axios.get("http://localhost:3001/joined-rooms", { headers })
+    axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/rooms`, { headers }),
+    axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/joined-rooms`, { headers })
   ])
   
   setCreatedRooms(created.data.rooms)
@@ -40,7 +40,7 @@ export default function Dashboard() {
 }
  async function createRoom() {
   const token = localStorage.getItem("token")
-  const response = await axios.post("http://localhost:3001/room",
+  const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/room`,
     { slug },
     { headers: { authorization: token } }
   )
@@ -60,7 +60,7 @@ async function joinRoom(roomId?: number) {
 async function handleJoinByCode() {
   try {
     const token = localStorage.getItem("token")
-    const response = await axios.get(`http://localhost:3001/room/${joinId}`, {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/room/${joinId}`, {
       headers: { authorization: token || "" }
     })
     

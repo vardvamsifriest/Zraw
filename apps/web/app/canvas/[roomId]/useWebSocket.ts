@@ -11,14 +11,14 @@ export function useWebSocket(
  
   useEffect(() => {
     const token = localStorage.getItem("token")
-    const ws = new WebSocket(`ws://localhost:8080?token=${token}`)
+    const ws = new WebSocket(`${process.env.NEXT_PUBLIC_WS_URL}?token=${token}`)
     wsRef.current = ws
 
     ws.onopen = () => {
   ws.send(JSON.stringify({ type: "join_room", roomId }))
   
   const token = localStorage.getItem("token")
-  fetch(`http://localhost:3001/chats/${roomId}`, {
+  fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chats/${roomId}`, {
     headers: { authorization: token || "" }
   })
   .then(res => res.json())

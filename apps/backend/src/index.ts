@@ -73,7 +73,7 @@ app.post("/room", middleware, async (req, res) => {
 app.get("/rooms", middleware, async (req, res) => {
   const authReq = req as AuthRequest
   const rooms = await prisma.room.findMany({
-    where: { adminId: Number(authReq.userId) }  // ← add this
+    where: { adminId: Number(authReq.userId) }  
   })
   res.json({ rooms })
 })

@@ -60,7 +60,7 @@ export default function Canvas({ params }: { params: Promise<{ roomId: string }>
       )}
 
       <div className={showUserCard ? "blur-sm pointer-events-none" : ""}>
-        <div className="absolute top-0 left-0 w-full bg-slate-900 z-50 flex items-center border-b-4 border-slate-700 justify-between px-6 h-20">
+        <div className="absolute top-0 left-0 w-full bg-slate-900 z-50 flex items-center border-b-4 border-slate-700 justify-between px-6 h-28">
           <div className="flex-shrink-0">
             <Logo size="sm" />
           </div>

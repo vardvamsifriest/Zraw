@@ -13,7 +13,7 @@ export function UserCard(props:usercardprops)
     const [username, setUsername] = useState("")
     useEffect(() => {
   const token = localStorage.getItem("token")
-  axios.get("http://localhost:3001/me", {
+  axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/me`, {
     headers: { authorization: token }
   }).then(res => setUsername(res.data.user.username))
 }, [])

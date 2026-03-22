@@ -2,10 +2,10 @@
   "name": "@repo/common",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build":"tsc -b"
+    "build": "tsc -b"
   },
   "keywords": [],
   "author": "",
@@ -14,7 +14,10 @@
   "dependencies": {
     "zod": "^4.3.6"
   },
-  "exports":{
-    ".":"./dist/index.js"
+  "devDependencies": {
+    "typescript": "5.9.2"
+  },
+  "exports": {
+    ".": "./dist/index.js"
   }
 }

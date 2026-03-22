@@ -22,7 +22,8 @@
     "pg": "^8.20.0"
   },
   "devDependencies": {
-    "prisma": "^7.4.2"
+    "prisma": "^7.4.2",
+     "typescript": "5.9.2"
   },
   "exports": {
     ".": "./dist/index.js"

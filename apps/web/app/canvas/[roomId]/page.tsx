@@ -60,39 +60,32 @@ export default function Canvas({ params }: { params: Promise<{ roomId: string }>
       )}
 
       <div className={showUserCard ? "blur-sm pointer-events-none" : ""}>
-       <div className="absolute top-0 left-0 w-full bg-slate-900 z-50 border-b-4 border-slate-700">
- 
-  <div className="flex items-center justify-between px-6 h-14">
-    <div className="flex-shrink-0">
-      <Logo />
-    </div>
-    <div className="flex-shrink-0 cursor-pointer">
-      <img
-        onClick={() => setShowUserCard(true)}
-        src="/images/user.png"
-        className="h-8 w-8 hover:opacity-80 transition-all"
-      />
-    </div>
-  </div>
- 
-  <div className="flex justify-center pb-2">
-    <DrawBar
-      filled={filled}
-      setFilled={setFilled}
-      activeTool={activeTool}
-      setActiveTool={setActiveTool}
-      activeColor={activeColor}
-      setActiveColor={setActiveColor}
-      fontSize={fontSize}
-      setFontSize={handleSetFontSize}
-    />
-  </div>
-</div>
-          <div className="cursor-pointer">
-            <img
-              onClick={() => setShowUserCard(true)}
-              src="/images/user.png"
-              className="h-10 w-10 hover:opacity-80 transition-all"
+        {/* Navbar */}
+        <div className="absolute top-0 left-0 w-full bg-slate-900 z-50 border-b-4 border-slate-700">
+          {/* Row 1: Logo + User icon */}
+          <div className="flex items-center justify-between px-6 h-14">
+            <div className="flex-shrink-0">
+              <Logo />
+            </div>
+            <div className="flex-shrink-0 cursor-pointer">
+              <img
+                onClick={() => setShowUserCard(true)}
+                src="/images/user.png"
+                className="h-8 w-8 hover:opacity-80 transition-all"
+              />
+            </div>
+          </div>
+          {/* Row 2: DrawBar */}
+          <div className="flex justify-center pb-2">
+            <DrawBar
+              filled={filled}
+              setFilled={setFilled}
+              activeTool={activeTool}
+              setActiveTool={setActiveTool}
+              activeColor={activeColor}
+              setActiveColor={setActiveColor}
+              fontSize={fontSize}
+              setFontSize={handleSetFontSize}
             />
           </div>
         </div>
@@ -132,5 +125,6 @@ export default function Canvas({ params }: { params: Promise<{ roomId: string }>
           />
         )}
       </div>
+    </div>
   )
 }

@@ -8,8 +8,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
     "start:backend":"cd apps/backend && pnpm start",
-    "start:ws":"cd apps/backend && pnpm start",
-    "start:web":"cd apps/backend && pnpm start"
+    "start:ws":"cd apps/ws && pnpm start",
+    "start:web":"cd apps/web && pnpm start"
 
   },
   "devDependencies": {

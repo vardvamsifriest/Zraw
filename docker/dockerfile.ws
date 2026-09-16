@@ -18,6 +18,8 @@ RUN cd packages/common && pnpm run build
 RUN cd packages/db && pnpm run build
 RUN cd apps/ws && pnpm run build
 
+WORKDIR /app/apps/ws
+
 EXPOSE 3001
 
-CMD ["node","run", "start:backend"]
+CMD ["pnpm", "run", "start"]

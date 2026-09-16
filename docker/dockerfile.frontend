@@ -16,8 +16,10 @@ RUN pnpm install --frozen-lockfile=false
 
 RUN cd packages/common && pnpm run build
 RUN cd packages/db && pnpm run build
+RUN cd apps/web && pnpm run build
 
+WORKDIR /app/apps/web
 
-EXPOSE 3001
+EXPOSE 3000
 
-CMD ["node","run", "start:backend"]
+CMD ["pnpm", "run", "start"]

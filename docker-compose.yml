@@ -1,0 +1,23 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: docker/dockerfile.backend
+    ports:
+      - "3001:3001"
+
+  web:
+    build:
+      context: .
+      dockerfile: docker/dockerfile.frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  ws:
+    build:
+      context: .
+      dockerfile: docker/dockerfile.ws
+    ports:
+      - "3002:3001"
